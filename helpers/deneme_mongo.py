@@ -130,7 +130,5 @@ print(result9)
 # with open(jsonFilePath,"w") as jsonFile:
 #     jsonFile.write(json.dumps(data, indent=4))
     
-CLOUD UZERINE DATAFRAME'I => JSON'A CEVIRIP client.database.collection.insert_many([{},{},{}]) 
-DIYEREK EKLEYEBILIRIZ
 
 
