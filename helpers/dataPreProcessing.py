@@ -20,8 +20,7 @@ class dataPreProcess:
     def crush_outliers(self,col,q1 = 0.01,q3 = 0.99):
         lowerLimit,upperLimit = dataPreProcess(self.df).outlierThreshold(col,q1,q3)
         self.df.loc[(self.df[col] < lowerLimit), col] = lowerLimit
-        self.df.loc[(self.df[col] > upperLimit), col] = upperLimit
-        
+        self.df.loc[(self.df[col] > upperLimit), col] = upperLimit       
     def localOutlierFactor(self, col, neighbors = None, percent = None, plot_xlim = None): # Unsupervised Algorithm
         # 1: Normal, -1: Anormal    
         lof = LocalOutlierFactor(n_neighbors = neighbors, contamination=percent)
@@ -32,7 +31,6 @@ class dataPreProcess:
         plt.show()
         result = np.sort(df_scores)[0:plot_xlim]
         return result,df_scores
-
     def dummies(self,categoric_cols):
         self.df = pd.get_dummies(self.df, columns = categoric_cols, drop_first=True), # Male:1,Female(default):0
         return self.df 
