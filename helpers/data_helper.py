@@ -86,7 +86,7 @@ class dataUnderstand(object):
              return str(valuesDf.head()) + "\n\n" + str(valuesDf.index)
          else:
              return str(valuesDf) + "\n\n" + str(valuesDf.index)
-     def categoricVisualisation(self,categoric_cols,target):
+     def categoricVisualisationBarplot(self,categoric_cols,target):
          number_of_colors = len(categoric_cols)
          color = ["#"+''.join([random.choice('0123456789ABCDEF') for j in range(6)])
                   for i in range(number_of_colors)]
@@ -99,7 +99,42 @@ class dataUnderstand(object):
              #sns.barplot(categoric_cols[i] ,target, data=self.df ,palette=random.choice(COLORS))
              plt.xlabel('Item_Type', fontsize=14)
              plt.legend()
+             plt.xticks(rotation=60,fontsize=14)
+             plt.title("{} of {}".format(categoric_cols[i],target))
              plt.show()
+     def categoricVisualisationCountplot(self,categoric_cols):
+         for col in categoric_cols:
+             plt.figure(figsize=(25,10))
+             sns.countplot(data = self.df, x=col)
+             plt.xticks(rotation=60, fontsize=15)
+             plt.title("{} Count".format(col))
+             plt.show()
+     def categoricVisualisationBoxplot(self,categoric_cols,target):
+         for col in categoric_cols:
+             plt.figure(figsize=(25,10))
+             sns.boxplot(data = self.df, x = col, y = target)
+             plt.xticks(rotation=60, fontsize=15)
+             plt.title("{} of {}".format(col,target))
+             plt.show()
+     def categoricVisualisationStripplot(self,categoric_cols,target):
+         for col in categoric_cols:
+             plt.figure(figsize=(25,10))
+             sns.stripplot(data = self.df, x = col, y = target)
+             plt.xticks(rotation=60, fontsize=15)
+             plt.title("{} of {}".format(col,target))
+             plt.show()  
+     def categoricVisualisationViolinplot(self,categoric_cols,target):
+         for col in categoric_cols:
+             plt.figure(figsize=(25,10))
+             sns.stripplot(data = self.df, x = col, y = target)
+             plt.xticks(rotation=60, fontsize=15)
+             plt.title("{} of {}".format(col,target))
+             plt.show()
+     def numericVisulisation(self,numeric_cols):
+         for col in numeric_cols:
+             sns.distplot(self.df[col])
+             plt.title("Graph of density by {}".format(col))
+             plt.show()          
      def num_to_cat(self,feature,a,b,c,d,e,f,g,h):
          self.df.loc[(self.df[feature] > a) & (self.df[feature] <= b), feature] = 0
          self.df.loc[(self.df[feature] > b) & (self.df[feature] <= c), feature] = 1
@@ -115,7 +150,8 @@ class missingValue(object): # Machine Learning Algorithm da kullabılabilir.
         self.df = df
     def sıfır(self,missing_col):
         self.df[missing_col] = self.df[missing_col].fillna(0)
-        return self.missingVisualization(missing_col)
+        #self.df[missing_col] = self.df[col].replace(to_replace=0, value=np.NaN)
+        return self.missingVisualization(missing_col,plot=True)
     def average(self,missing_col):
         imputer = SimpleImputer(missing_values = "NaN", strategy = "mean")
         imputer_col = imputer.fit(self.df[missing_col].values)
@@ -147,3 +183,6 @@ class missingValue(object): # Machine Learning Algorithm da kullabılabilir.
         return  missing_col +" missing value: "+str(self.df[missing_col].isnull().sum())
     def corr_columns(self, col1, col2):
         return self.df[[col1,col2]].corr()
+
+    
+    
